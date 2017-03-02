@@ -1,0 +1,24 @@
+<html>
+<body>	
+	<form id = "form">
+		<textarea  id="message"></textarea>
+		<input type="submit" name="">
+	</form>
+	<div  id="chat"></div>
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io.connect();
+	$(function(){
+		socket.on ('messageSuccess', function (data) {
+				$('#chat').append("<p>"+data['message']+"</p>");
+	 		});
+		$('#form').submit(function( event ) {
+	  		event.preventDefault();
+	  		var val = $('#message').val();
+	  		socket.emit ('message', {message: val});
+		});
+	});
+	</script>
+</body>
+</html>
